@@ -53,11 +53,25 @@
   background: #486ae8;
 }
 
+.faucet-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sub__btn{
   background: #3d4f7c;
 }
 .mt{
-  margin-top: -50px;
+  margin-top: 10px;
+}
+.amount-input{
+  width: 90%;
+  border: 1px solid black;
+  border-radius: 10px;
+  outline: none;
 }
 
 .QRscanner {

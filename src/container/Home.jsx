@@ -31,8 +31,8 @@ const Home = () => {
         </div>
         )}
       </div>
-      <div>
-        <Pins />
+      <div className="place-content-center w-full justify-center items-center">
+        <Pins /> 
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 
 import { contractABI, contractAddress } from "../utils/constants";
@@ -22,12 +22,25 @@ export const TransactionsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [transactionCount, setTransactionCount] = useState(localStorage.getItem("transactionCount"));
   const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState('0');
 
   const handleChange = (e, name) => {
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
 
-  const getAllTransactions = async () => {
+  useEffect(() => {
+    const loadBalance = async () => {
+      const transactionsContract = createEthereumContract();
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const balance = await provider.getBalance(transactionsContract);
+      console.log(transactionsContract)
+      console.log(balance)
+      setBalance(balance)
+    }
+   loadBalance()
+  }, [])
+
+  /*const getAllTransactions = async () => {
     try {
       if (ethereum) {
         const transactionsContract = createEthereumContract();
@@ -51,7 +64,7 @@ export const TransactionsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
 
   const checkIfWalletIsConnect = async () => {
     try {
@@ -62,7 +75,7 @@ export const TransactionsProvider = ({ children }) => {
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
 
-        getAllTransactions();
+        //getAllTransactions();
       } else {
         console.log("No accounts found");
       }
@@ -71,7 +84,7 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  const checkIfTransactionsExists = async () => {
+  /*const checkIfTransactionsExists = async () => {
     try {
       if (ethereum) {
         const transactionsContract = createEthereumContract();
@@ -81,10 +94,9 @@ export const TransactionsProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-
       throw new Error("No ethereum object");
     }
-  };
+  };*/
 
   const connectWallet = async () => {
     try {
@@ -103,6 +115,8 @@ useEffect(() => {
   const getContract = async () => {
     try{
       if(ethereum){
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
         const transactionsContract = new ethers.Contract(contractAddress, contractABI, signer);
         setContract(transactionsContract)
       }
@@ -114,6 +128,24 @@ useEffect(() => {
   getContract()
 }, []);
    
+
+  const addFunds = useCallback(async (value) => {
+    const transactionsContract = createEthereumContract();
+    const parsedAmount = ethers.utils.parseEther(value);
+    await transactionsContract.addFunds({
+      from: currentAccount,
+      value: parsedAmount
+    })
+
+  }, [contract, currentAccount])
+
+  const withdraw = async () => {
+    const transactionsContract = createEthereumContract();
+    const parsedAmount = ethers.utils.parseEther("0.1");
+    await transactionsContract.withdraw(parsedAmount, {
+      from: currentAccount
+    })
+  }
 
   const sendTransaction = async () => {
     try {
@@ -132,9 +164,10 @@ useEffect(() => {
           }],
         });
 
+        setIsLoading(true);
+
         const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message);
 
-        setIsLoading(true);
         console.log(`Loading - ${transactionHash.hash}`);
         await transactionHash.wait();
         console.log(`Success - ${transactionHash.hash}`);
@@ -155,7 +188,7 @@ useEffect(() => {
 
   useEffect(() => {
     checkIfWalletIsConnect();
-    checkIfTransactionsExists();
+    //checkIfTransactionsExists();
   }, [transactionCount]);
 
   return (
@@ -168,8 +201,10 @@ useEffect(() => {
         isLoading,
         sendTransaction,
         handleChange,
-        contract,
+        addFunds,
+        withdraw,
         formData,
+        balance,
       }}
     >
       {children}

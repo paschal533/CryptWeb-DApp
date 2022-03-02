@@ -7,6 +7,7 @@ import Image from '../assets/not-found.png';
 import { TransactionContext } from "../context/TransactionContext";
 import { shortenAddress } from "../utils/shortenAddress";
 import Loader from "./Loader";
+import Spinner from "./Spinner";
 
 const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
@@ -23,7 +24,6 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Welcome = () => {
   const { currentAccount, connectWallet, handleChange, sendTransaction, formData, isLoading } = useContext(TransactionContext);
-
   const handleSubmit = (e) => {
     const { addressTo, amount, message } = formData;
 
@@ -42,7 +42,7 @@ const Welcome = () => {
             Send Crypto <br /> across the world
           </h1>
           <p className="text-left mt-5 text-black font-light md:w-9/12 w-11/12 text-base">
-            Explore the crypto world. Buy and sell cryptocurrencies easily on cryptweb.
+            Explore the crypto world. send and receive cryptocurrencies easily on cryptweb.
           </p>
           {!currentAccount && (
             <button
@@ -57,7 +57,7 @@ const Welcome = () => {
             </button>
           )}
 
-          <div className="w-full mt">
+          <div className={currentAccount ? "w-full mt-10" : "w-full mt" }>
             <img src={currentAccount ? crypto : Image} alt="image" />
           </div>
         </div>
@@ -89,7 +89,7 @@ const Welcome = () => {
             <div className="h-[1px] w-full bg-gray-400 my-2" />
 
             {isLoading
-              ? <Loader />
+              ? <Spinner message={"sending transaction"} />
               : (
                 <button
                   type="button"
