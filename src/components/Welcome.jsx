@@ -42,7 +42,7 @@ const Welcome = () => {
             Send Crypto <br /> across the world
           </h1>
           <p className="text-left mt-5 text-black font-light md:w-9/12 w-11/12 text-base">
-              Explore the crypto world. send and receive cryptocurrencies easily on cryptweb.
+            Explore the crypto world. send and receive cryptocurrencies easily on cryptweb.
           </p>
           {!currentAccount && (
             <button
