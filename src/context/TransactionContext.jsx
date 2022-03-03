@@ -30,7 +30,7 @@ export const TransactionsProvider = ({ children }) => {
 
   useEffect(() => {
     const loadBalance = async () => {
-      const transactionsContract = createEthereumContract();
+      //const transactionsContract = createEthereumContract();
       const provider = new ethers.providers.Web3Provider(ethereum);
       const balance = await provider.getBalance(transactionsContract);
       console.log(transactionsContract)
