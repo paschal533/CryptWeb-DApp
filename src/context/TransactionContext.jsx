@@ -34,7 +34,7 @@ export const TransactionsProvider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const balance = await provider.getBalance(transactionsContract);
       console.log(transactionsContract)
-      //console.log(balance)
+      console.log(balance)
       setBalance(balance)
     }
    loadBalance()
