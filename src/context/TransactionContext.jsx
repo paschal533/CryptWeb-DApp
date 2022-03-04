@@ -182,32 +182,6 @@ export const TransactionsProvider = ({ children }) => {
    loadBalance()
   }, [])
 
-  /*const getAllTransactions = async () => {
-    try {
-      if (ethereum) {
-        const transactionsContract = createEthereumContract();
-
-        const availableTransactions = await transactionsContract.getAllTransactions();
-
-        const structuredTransactions = availableTransactions.map((transaction) => ({
-          addressTo: transaction.receiver,
-          addressFrom: transaction.sender,
-          timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-          message: transaction.message,
-          amount: parseInt(transaction.amount._hex) / (10 ** 18)
-        }));
-
-        console.log(structuredTransactions);
-
-        setTransactions(structuredTransactions);
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
-
   const checkIfWalletIsConnect = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
@@ -225,20 +199,6 @@ export const TransactionsProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  /*const checkIfTransactionsExists = async () => {
-    try {
-      if (ethereum) {
-        const transactionsContract = createEthereumContract();
-        const currentTransactionCount = await transactionsContract.getTransactionCount();
-
-        window.localStorage.setItem("transactionCount", currentTransactionCount);
-      }
-    } catch (error) {
-      console.log(error);
-      throw new Error("No ethereum object");
-    }
-  };*/
 
   const connectWallet = async () => {
     try {
