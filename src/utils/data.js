@@ -6,6 +6,10 @@ export const categories = [
   {
     name: 'Faucet',
     image: 'https://images.pexels.com/photos/7788009/pexels-photo-7788009.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  },
+  {
+    name: 'Play Game',
+    image: 'https://images.pexels.com/photos/278918/pexels-photo-278918.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
   }
 ];
 

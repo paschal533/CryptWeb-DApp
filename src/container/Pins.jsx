@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Faucet, Feed, Receive } from '../components';
+import { Faucet, Feed, Game, Receive } from '../components';
 
 const Pins = () => {
 
@@ -11,6 +11,7 @@ const Pins = () => {
         <Route path="/" element={<Feed />} />
         <Route path="/Receive" element={<Receive />} />
         <Route path="/Faucet" element={<Faucet />} />
+        <Route path="/Play%20Game" element={<Game />} />
       </Routes>
     </div>
   );
